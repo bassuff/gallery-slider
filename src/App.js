@@ -1,25 +1,27 @@
-import logo from './logo.svg';
+import React from 'react';
+import GallerySlider from './GallerySlider/GallerySlider.js';
+import Magnifier from './Magnifier/Magnifier.js';
+
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const galleryList = [
+		{url: 'pexels-maria-loznevaya-13828059.jpeg', altText: '13828059'},
+		{url: 'pexels-maria-loznevaya-13816113.jpeg', altText: '13816113'},
+		{url: 'pexels-maria-loznevaya-13815029.jpeg', altText: '13815029'}
+	];
+	const options = {img: '1.jpg', width: 300, height: 450, zoomWidth: 500, offset: {vertical: 0, horizontal: 10}};
+
+	return (
+		<div className="container text-center">
+			<div className="row">
+				<div className="col-lg-6 col-md-8 mx-auto">
+					<GallerySlider slides={galleryList} />
+					{/*<ReactMagnifier options={options} />*/}
+				</div>
+			</div>
+		</div>
+	);
 }
 
 export default App;

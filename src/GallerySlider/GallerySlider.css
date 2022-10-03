@@ -1,0 +1,85 @@
+.slide {
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.slide:not(.active) {
+	display: none;
+}
+
+.slide img {
+	height: 360px;
+	width: 360px;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+	cursor: pointer;
+	position: absolute;
+	top: 50%;
+	height: 42px;
+	width: 42px;
+	padding: 0;
+	margin-top: -21px;
+	color: silver;
+	font-size: 20px;
+}
+
+.prev:hover,
+.next:hover {
+	color: black;
+}
+
+/* Position the "next button" to the right */
+.prev {
+	left: 0;
+}
+
+.next {
+	right: 0;
+}
+
+/* Container for image text */
+figcaption {
+	background-color: rgba(255, 255, 255, 0.75);
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	width: 100%;
+}
+
+/* Thumbnails */
+.track {
+	display: flex;
+	transition: transform 500ms ease 0s;
+}
+
+.list {
+	margin: 0 auto;
+	max-width: 252px;
+	overflow: hidden;
+}
+
+.thumbnail {
+	cursor: pointer;
+	width: 42px;
+	height: 42px;
+}
+
+.thumbnail-image {
+	border: 2px solid transparent;
+	opacity: 0.6;
+}
+
+.thumbnail-image.active,
+.thumbnail-image:hover {
+	opacity: 1;
+	border: 2px solid black;
+}
+
+.dialog {
+	width: 90vw;
+}
