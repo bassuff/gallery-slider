@@ -1,3 +1,8 @@
+/**
+ * @license Copyright (c) 2017 Andrii Malaman
+ * Written by Andrii Malaman https://github.com/malaman/js-image-zoom
+ */
+
 // Libraries
 import React, {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
