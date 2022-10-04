@@ -12,7 +12,7 @@ import './GallerySlider.css';
 const Images = ({currentIndex, openDialog, slides}) => (
 	slides.map((item, slideIndex) => (
 		<figure key={item.url} className={classnames('slide', {active: slideIndex === currentIndex})} onClick={openDialog}>
-			<img src={item.url} alt={item.altText} />
+			<img src={item.url} id={`image-${slideIndex}`} alt={item.altText} />
 			{item.altText && <figcaption className="text-center">{item.altText}</figcaption>}
 		</figure>
 	))
