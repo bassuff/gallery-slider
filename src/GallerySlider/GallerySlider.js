@@ -2,7 +2,9 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import Dialog from '@mui/material/Dialog';
+
+// Components
+import Dialog from '../Dialog/Dialog.js';
 
 // Styles
 import './GallerySlider.css';
@@ -26,7 +28,7 @@ const Thumbnails = ({currentIndex, goToNext, goToPrevious, goToSlide, slides}) =
 	<div className="position-relative mt-2">
 		<button className="prev" onClick={goToPrevious}>❮</button>
 		<div className="list">
-			<div className="track" style={{width: `${slides.length * 42}px`, transform: `translate3d(${126 - 42 * currentIndex}px, 0px, 0px)`}}>
+			<div className="track" style={{width: `${slides.length * 42}px`, transform: `translate3d(${105 - 42 * currentIndex}px, 0px, 0px)`}}>
 				{slides.map((item, slideIndex) => (
 					<div key={item.url} className="thumbnail" onClick={() => goToSlide(slideIndex)}>
 						<img className={classnames('thumbnail-image', {active: slideIndex === currentIndex})} src={item.url} alt={item.altText} onClick={() => null} />
@@ -49,6 +51,7 @@ Thumbnails.propTypes = {
 const GallerySlider = ({slides}) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const [touchPosition, setTouchPosition] = useState(null);
 
 	const goToPrevious = () => {
 		const isFirstSlide = currentIndex === 0;
@@ -74,12 +77,41 @@ const GallerySlider = ({slides}) => {
 		setIsDialogOpen(false);
 	};
 
+	const handleTouchStart = e => {
+		const touchDown = e.touches[0].clientX;
+		setTouchPosition(touchDown);
+	};
+
+	const handleTouchMove = e => {
+		const touchDown = touchPosition;
+
+		if (touchDown === null) {
+			return;
+		}
+
+		const currentTouch = e.touches[0].clientX;
+		const diff = touchDown - currentTouch;
+
+		if (diff > 5) {
+			goToNext();
+		}
+
+		if (diff < -5) {
+			goToPrevious();
+		}
+
+		setTouchPosition(null);
+	};
+
 	return (
-		<div>
+		<div
+			onTouchStart={handleTouchStart}
+			onTouchMove={handleTouchMove}
+		>
 			<Images currentIndex={currentIndex} openDialog={openDialog} slides={slides} />
 			<Thumbnails currentIndex={currentIndex} goToNext={goToNext} goToPrevious={goToPrevious} goToSlide={goToSlide} slides={slides} />
 			{isDialogOpen && (
-				<Dialog backDropHandler={closeDialog} closeHandler={closeDialog} simple={false} className="dialog">
+				<Dialog onClose={closeDialog}>
 					<Images currentIndex={currentIndex} openDialog={openDialog} slides={slides} />
 					<Thumbnails currentIndex={currentIndex} goToNext={goToNext} goToPrevious={goToPrevious} goToSlide={goToSlide} slides={slides} />
 				</Dialog>

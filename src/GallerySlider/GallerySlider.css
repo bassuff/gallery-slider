@@ -26,6 +26,8 @@
 	margin-top: -21px;
 	color: silver;
 	font-size: 20px;
+	background-color: rgb(239, 239, 239);
+	border: 1px solid rgb(239, 239, 239);
 }
 
 .prev:hover,
@@ -43,6 +45,10 @@
 }
 
 /* Container for image text */
+figure {
+	position: relative;
+}
+
 figcaption {
 	background-color: rgba(255, 255, 255, 0.75);
 	bottom: 0;
@@ -70,6 +76,7 @@ figcaption {
 }
 
 .thumbnail-image {
+	width: 100%;
 	border: 2px solid transparent;
 	opacity: 0.6;
 }
@@ -81,5 +88,5 @@ figcaption {
 }
 
 .dialog {
-	width: 90vw;
+	/*width: 90vw;*/
 }
