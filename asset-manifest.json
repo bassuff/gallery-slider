@@ -1,15 +1,24 @@
 {
-  "main.css": "/gallery-slider/static/css/main.24079a03.chunk.css",
-  "main.js": "/gallery-slider/static/js/main.16c04615.chunk.js",
-  "main.js.map": "/gallery-slider/static/js/main.16c04615.chunk.js.map",
-  "static/js/1.c972895f.chunk.js": "/gallery-slider/static/js/1.c972895f.chunk.js",
-  "static/js/1.c972895f.chunk.js.map": "/gallery-slider/static/js/1.c972895f.chunk.js.map",
-  "static/js/2.261006b5.chunk.js": "/gallery-slider/static/js/2.261006b5.chunk.js",
-  "static/js/2.261006b5.chunk.js.map": "/gallery-slider/static/js/2.261006b5.chunk.js.map",
-  "runtime~main.js": "/gallery-slider/static/js/runtime~main.204d6b2d.js",
-  "runtime~main.js.map": "/gallery-slider/static/js/runtime~main.204d6b2d.js.map",
-  "static/css/main.24079a03.chunk.css.map": "/gallery-slider/static/css/main.24079a03.chunk.css.map",
-  "index.html": "/gallery-slider/index.html",
-  "precache-manifest.a2d959c03f99c040229e13bf88a9be7b.js": "/gallery-slider/precache-manifest.a2d959c03f99c040229e13bf88a9be7b.js",
-  "service-worker.js": "/gallery-slider/service-worker.js"
+  "files": {
+    "main.css": "/gallery-slider/static/css/main.2e306b87.chunk.css",
+    "main.js": "/gallery-slider/static/js/main.bea33360.chunk.js",
+    "main.js.map": "/gallery-slider/static/js/main.bea33360.chunk.js.map",
+    "runtime-main.js": "/gallery-slider/static/js/runtime-main.4d39a721.js",
+    "runtime-main.js.map": "/gallery-slider/static/js/runtime-main.4d39a721.js.map",
+    "static/js/2.fedade39.chunk.js": "/gallery-slider/static/js/2.fedade39.chunk.js",
+    "static/js/2.fedade39.chunk.js.map": "/gallery-slider/static/js/2.fedade39.chunk.js.map",
+    "static/js/3.22199edf.chunk.js": "/gallery-slider/static/js/3.22199edf.chunk.js",
+    "static/js/3.22199edf.chunk.js.map": "/gallery-slider/static/js/3.22199edf.chunk.js.map",
+    "index.html": "/gallery-slider/index.html",
+    "precache-manifest.073d6b8476f79e75971a2d5f9bbf070f.js": "/gallery-slider/precache-manifest.073d6b8476f79e75971a2d5f9bbf070f.js",
+    "service-worker.js": "/gallery-slider/service-worker.js",
+    "static/css/main.2e306b87.chunk.css.map": "/gallery-slider/static/css/main.2e306b87.chunk.css.map",
+    "static/js/2.fedade39.chunk.js.LICENSE.txt": "/gallery-slider/static/js/2.fedade39.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4d39a721.js",
+    "static/js/2.fedade39.chunk.js",
+    "static/css/main.2e306b87.chunk.css",
+    "static/js/main.bea33360.chunk.js"
+  ]
 }
