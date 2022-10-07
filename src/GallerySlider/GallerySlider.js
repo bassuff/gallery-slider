@@ -1,5 +1,5 @@
 // Libraries
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
@@ -7,20 +7,29 @@ import classnames from 'classnames';
 import Dialog from '../Dialog/Dialog.js';
 import Magnifier from '../Magnifier/Magnifier.js';
 
+// Context
+import {MagnifierContext} from '../App.js';
+
 // Styles
 import './GallerySlider.css';
 
-const options = {width: 300, height: 300, zoomWidth: 500, offset: {vertical: 0, horizontal: 10}};
+const options = {zoomWidth: 500, offset: {vertical: 0, horizontal: 10}};
 
-const Images = ({currentIndex, magnifier, openDialog, slides}) => (
-	slides.map((item, slideIndex) => (
-		<figure key={item.url} className={classnames('slide', {active: slideIndex === currentIndex})} onClick={openDialog}>
-			<img src={`${process.env.PUBLIC_URL}/${item.url}`} id={`image-${slideIndex}`} alt={item.altText} />
-			{item.altText && <figcaption className="text-center">{item.altText}</figcaption>}
-			{magnifier && <Magnifier options={options} index={slideIndex} />}
-		</figure>
-	))
-);
+const Images = ({currentIndex, magnifier, openDialog, slides}) => {
+	const magnifierContext = useContext(MagnifierContext);
+
+	return (
+		slides.map((item, slideIndex) => (
+			<figure key={item.url} className={classnames('slide', {active: slideIndex === currentIndex})} onClick={openDialog}>
+				<img src={`${process.env.PUBLIC_URL}/${item.url}`} id={`image-${slideIndex}`} alt={item.altText} />
+				{item.altText && <figcaption className="text-center">{item.altText}</figcaption>}
+				{magnifier && magnifierContext
+					? <Magnifier options={options} index={slideIndex} width={360} height={360} />
+					: null}
+			</figure>
+		))
+	);
+};
 
 Images.propTypes = {
 	currentIndex: PropTypes.number.isRequired,

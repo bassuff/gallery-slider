@@ -1,6 +1,10 @@
-import React from 'react';
+// Libraries
+import React, {createContext, useState} from 'react';
+
+// Components
 import GallerySlider from './GallerySlider/GallerySlider.js';
 
+// Styles
 import './App.css';
 
 const galleryList = [
@@ -10,30 +14,38 @@ const galleryList = [
     {url: 'mike-houser-ASOGZQvLKt0-unsplash.jpg', altText: '4'}
 ];
 
-function App() {
+export const MagnifierContext = createContext(false);
+
+const App = () => {
+    const [magnifier, setMagnifier] = useState(false);
+
     const handleChange = event => {
-        console.log(event.target);
+        event.preventDefault();
+        setMagnifier(event.target.value === 'on');
     };
 
     return (
         <div className="container-fluid">
             <div className="row">
                 <nav className="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                    <h2>Magnifier</h2>
                     <div className="form-check">
-                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" onChange={handleChange} />
-                        <label className="form-check-label" htmlFor="flexRadioDefault1">Default radio</label>
+                        <input className="form-check-input" type="radio" value="off" name="magnifier" id="magnifier-off" onChange={handleChange} checked={!magnifier} />
+                        <label className="form-check-label" htmlFor="magnifier-off">Disabled</label>
                     </div>
                     <div className="form-check">
-                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onChange={handleChange} checked />
-                        <label className="form-check-label" htmlFor="flexRadioDefault2">Default checked radio</label>
+                        <input className="form-check-input" type="radio" value="on" name="magnifier" id="magnifier-on" onChange={handleChange} checked={magnifier} />
+                        <label className="form-check-label" htmlFor="magnifier-on">Enabled</label>
                     </div>
                 </nav>
                 <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                    <GallerySlider slides={galleryList}/>
+                    <MagnifierContext.Provider value={magnifier}>
+                        <GallerySlider slides={galleryList}/>
+                    </MagnifierContext.Provider>
                 </main>
             </div>
         </div>
     );
-}
+};
 
 export default App;

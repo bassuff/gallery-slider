@@ -4,10 +4,15 @@
  */
 
 // Libraries
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 
-const Magnifier = ({index, options}) => {
+const Magnifier = props => {
+	const [height, setHeight] = useState(props.height);
+	const [width, setWidth] = useState(props.width);
+
+	let {index} = props;
+	let options = props.options;
 	const data = {
 		sourceImg: {
 			element: null,
@@ -72,11 +77,11 @@ const Magnifier = ({index, options}) => {
 	};
 
 	const leftLimit = min => {
-		return options.width - min;
+		return width - min;
 	};
 
 	const topLimit = min => {
-		return options.height - min;
+		return height - min;
 	};
 
 	const getValue = (val, min, max) => {
@@ -106,8 +111,8 @@ const Magnifier = ({index, options}) => {
 
 	const setZoomedImgSize = (options, data) => {
 		if (options.scale) {
-			data.zoomedImg.element.style.width = options.width * options.scale + 'px';
-			data.zoomedImg.element.style.height = options.height * options.scale + 'px';
+			data.zoomedImg.element.style.width = width * options.scale + 'px';
+			data.zoomedImg.element.style.height = height * options.scale + 'px';
 		} else if (options.zoomWidth) {
 			data.zoomedImg.element.style.width = options.zoomWidth + 'px';
 			data.zoomedImg.element.style.height = data.sourceImg.element.style.height;
@@ -119,12 +124,12 @@ const Magnifier = ({index, options}) => {
 
 	const onSourceImgLoad = () => {
 		// use height determined by browser if height is not set in options
-		options.height = options.height || data.sourceImg.element.height;
-		data.sourceImg.element.style.height = options.fillContainer ? '100%' : options.height + 'px';
+		setHeight(props.height || data.sourceImg.element.height);
+		data.sourceImg.element.style.height = options.fillContainer ? '100%' : height + 'px';
 
 		// use width determined by browser if width is not set in options
-		options.width = options.width || data.sourceImg.element.width;
-		data.sourceImg.element.style.width = options.fillContainer ? '100%' : options.width + 'px';
+		setWidth(props.width || data.sourceImg.element.width);
+		data.sourceImg.element.style.width = options.fillContainer ? '100%' : width + 'px';
 
 		setZoomedImgSize(options, data);
 
@@ -135,20 +140,20 @@ const Magnifier = ({index, options}) => {
 		data.zoomLens.element.style.background = 'white';
 		data.zoomLens.element.style.opacity = '0.4';
 
-		scaleX = data.sourceImg.naturalWidth / options.width;
-		scaleY = data.sourceImg.naturalHeight / options.height;
+		scaleX = data.sourceImg.naturalWidth / width;
+		scaleY = data.sourceImg.naturalHeight / height;
 		offset = getOffset(data.sourceImg.element);
 
 		// set zoomLens dimensions if custom scale is set
 		if (options.scale) {
-			data.zoomLens.width = options.width / (data.sourceImg.naturalWidth / (options.width * options.scale));
-			data.zoomLens.height = options.height / (data.sourceImg.naturalHeight / (options.height * options.scale));
+			data.zoomLens.width = width / (data.sourceImg.naturalWidth / (width * options.scale));
+			data.zoomLens.height = height / (data.sourceImg.naturalHeight / (height * options.scale));
 		}
 
 		// else if zoomWidth is set
 		else if (options.zoomWidth) {
 			data.zoomLens.width = options.zoomWidth / scaleX;
-			data.zoomLens.height = options.height / scaleY;
+			data.zoomLens.height = height / scaleY;
 		}
 
 		// else read from the zoomedImg
@@ -167,13 +172,13 @@ const Magnifier = ({index, options}) => {
 
 	const setup = () => {
 		container = document.getElementsByClassName('slide active')[0];
-		// data.sourceImg.element = imageRef.current;
+		// todo
 		data.sourceImg.element = document.getElementById('image-' + index);
 
 		options = options || {};
 		// containerRef.current.style.position = 'relative';
-		data.sourceImg.element.style.width = options.fillContainer ? '100%' : options.width ? options.width + 'px' : 'auto';
-		data.sourceImg.element.style.height = options.fillContainer ? '100%' : options.height ? options.height + 'px' : 'auto';
+		data.sourceImg.element.style.width = options.fillContainer ? '100%' : props.width ? width + 'px' : 'auto';
+		data.sourceImg.element.style.height = options.fillContainer ? '100%' : props.height ? height + 'px' : 'auto';
 
 		data.zoomLens.element = zoomLensRef.current;
 		data.zoomLens.element.style.display = 'none';
@@ -260,7 +265,7 @@ Magnifier.propTypes = {
 };
 
 Magnifier.defaultProps = {
-	fillContainer: true
+	fillContainer: false
 };
 
 export default Magnifier;
