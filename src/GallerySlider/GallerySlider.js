@@ -15,7 +15,7 @@ const options = {width: 300, height: 300, zoomWidth: 500, offset: {vertical: 0, 
 const Images = ({currentIndex, magnifier, openDialog, slides}) => (
 	slides.map((item, slideIndex) => (
 		<figure key={item.url} className={classnames('slide', {active: slideIndex === currentIndex})} onClick={openDialog}>
-			<img src={item.url} id={`image-${slideIndex}`} alt={item.altText} />
+			<img src={`${process.env.PUBLIC_URL}/${item.url}`} id={`image-${slideIndex}`} alt={item.altText} />
 			{item.altText && <figcaption className="text-center">{item.altText}</figcaption>}
 			{magnifier && <Magnifier options={options} index={slideIndex} />}
 		</figure>
@@ -36,7 +36,7 @@ const Thumbnails = ({currentIndex, goToNext, goToPrevious, goToSlide, slides}) =
 			<div className="track" style={{width: `${slides.length * 42}px`, transform: `translate3d(${105 - 42 * currentIndex}px, 0px, 0px)`}}>
 				{slides.map((item, slideIndex) => (
 					<div key={item.url} className="thumbnail" onClick={() => goToSlide(slideIndex)}>
-						<img className={classnames('thumbnail-image', {active: slideIndex === currentIndex})} src={item.url} alt={item.altText} onClick={() => null} />
+						<img className={classnames('thumbnail-image', {active: slideIndex === currentIndex})} src={`${process.env.PUBLIC_URL}/${item.url}`} alt={item.altText} onClick={() => null} />
 					</div>
 				))}
 			</div>
