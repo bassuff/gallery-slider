@@ -7,7 +7,7 @@
 import React, {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 
-const Magnifier = ({options}) => {
+const Magnifier = ({index, options}) => {
 	const data = {
 		sourceImg: {
 			element: null,
@@ -31,15 +31,23 @@ const Magnifier = ({options}) => {
 			height: 0,
 		},
 	};
-	const containerRef = useRef();
-	const imageRef = useRef();
+	// const containerRef = useRef();
+	// const imageRef = useRef();
 	const zoomLensRef = useRef();
 	const zoomedImageRef = useRef();
-	const img = React.createElement('img', {src: options.img});
-	const container = React.createElement('div', null, img);
+	// const img = React.createElement('img', {src: options.img});
+	// const container = React.createElement('div', null, img);
+	// const container = document.getElementsByClassName('slide active')[0];
+	let container;
 
 	useEffect(() => {
 		setup();
+
+		if (data.sourceImg.element.complete) {
+			onSourceImgLoad();
+		} else {
+			data.sourceImg.element.onload = onSourceImgLoad;
+		}
 
 		return () => {
 			kill();
@@ -158,10 +166,12 @@ const Magnifier = ({options}) => {
 	};
 
 	const setup = () => {
-		data.sourceImg.element = imageRef.current;
+		container = document.getElementsByClassName('slide active')[0];
+		// data.sourceImg.element = imageRef.current;
+		data.sourceImg.element = document.getElementById('image-' + index);
 
 		options = options || {};
-		containerRef.current.style.position = 'relative';
+		// containerRef.current.style.position = 'relative';
 		data.sourceImg.element.style.width = options.fillContainer ? '100%' : options.width ? options.width + 'px' : 'auto';
 		data.sourceImg.element.style.height = options.fillContainer ? '100%' : options.height ? options.height + 'px' : 'auto';
 
@@ -180,12 +190,20 @@ const Magnifier = ({options}) => {
 		data.zoomedImg.element.style.right = data.zoomedImgOffset.horizontal - data.zoomedImgOffset.horizontal * 2 + 'px';
 		data.zoomedImg.element.style.transform = 'translateX(100%)';
 
+		// Setup event listeners
+		container.addEventListener('mousemove', handleMouseMove, false);
+		container.addEventListener('mouseenter', handleMouseEnter, false);
+		container.addEventListener('mouseleave', handleMouseLeave, false);
 		window.addEventListener('scroll', handleScroll, false);
 
 		return data;
 	};
 
 	const kill = () => {
+		// Remove event listeners
+		container.removeEventListener('mousemove', handleMouseMove, false);
+		container.removeEventListener('mouseenter', handleMouseEnter, false);
+		container.removeEventListener('mouseleave', handleMouseLeave, false);
 		window.removeEventListener('scroll', handleScroll, false);
 	};
 
@@ -221,20 +239,15 @@ const Magnifier = ({options}) => {
 	};
 
 	return (
-		<div
-			onMouseMove={handleMouseMove}
-			onMouseEnter={handleMouseEnter}
-			onMouseLeave={handleMouseLeave}
-			ref={containerRef}
-		>
-			<img src={options.img} alt={options.img} onLoad={onSourceImgLoad} ref={imageRef} />
+		<React.Fragment>
 			<div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} ref={zoomLensRef} />
 			<div ref={zoomedImageRef} />
-		</div>
+		</React.Fragment>
 	);
 };
 
 Magnifier.propTypes = {
+	fillContainer: PropTypes.bool,
 	width: PropTypes.number,
 	img: PropTypes.string,
 	height: PropTypes.number,
@@ -244,6 +257,10 @@ Magnifier.propTypes = {
 	zoomStyle: PropTypes.string,
 	zoomLensStyle: PropTypes.string,
 	zoomPosition: PropTypes.oneOf(['top', 'left', 'bottom', 'right', 'original']),
+};
+
+Magnifier.defaultProps = {
+	fillContainer: true
 };
 
 export default Magnifier;

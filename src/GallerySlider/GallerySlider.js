@@ -5,27 +5,32 @@ import classnames from 'classnames';
 
 // Components
 import Dialog from '../Dialog/Dialog.js';
+import Magnifier from '../Magnifier/Magnifier.js';
 
 // Styles
 import './GallerySlider.css';
 
-const Images = ({currentIndex, openDialog, slides}) => (
+const options = {width: 300, height: 300, zoomWidth: 500, offset: {vertical: 0, horizontal: 10}};
+
+const Images = ({currentIndex, magnifier, openDialog, slides}) => (
 	slides.map((item, slideIndex) => (
 		<figure key={item.url} className={classnames('slide', {active: slideIndex === currentIndex})} onClick={openDialog}>
 			<img src={item.url} id={`image-${slideIndex}`} alt={item.altText} />
 			{item.altText && <figcaption className="text-center">{item.altText}</figcaption>}
+			{magnifier && <Magnifier options={options} index={slideIndex} />}
 		</figure>
 	))
 );
 
 Images.propTypes = {
 	currentIndex: PropTypes.number.isRequired,
+	magnifier: PropTypes.bool,
 	openDialog: PropTypes.func.isRequired,
 	slides: PropTypes.array.isRequired
 };
 
 const Thumbnails = ({currentIndex, goToNext, goToPrevious, goToSlide, slides}) => (
-	<div className="position-relative mt-2">
+	<div className="position-relative mt-2 w-100">
 		<button className="prev" onClick={goToPrevious}>❮</button>
 		<div className="list">
 			<div className="track" style={{width: `${slides.length * 42}px`, transform: `translate3d(${105 - 42 * currentIndex}px, 0px, 0px)`}}>
@@ -107,8 +112,9 @@ const GallerySlider = ({slides}) => {
 		<div
 			onTouchStart={handleTouchStart}
 			onTouchMove={handleTouchMove}
+			className="d-flex flex-column flex-nowrap justify-content-center align-items-center"
 		>
-			<Images currentIndex={currentIndex} openDialog={openDialog} slides={slides} />
+			<Images currentIndex={currentIndex} magnifier openDialog={openDialog} slides={slides} />
 			<Thumbnails currentIndex={currentIndex} goToNext={goToNext} goToPrevious={goToPrevious} goToSlide={goToSlide} slides={slides} />
 			{isDialogOpen && (
 				<Dialog onClose={closeDialog}>
