@@ -14,13 +14,18 @@ const galleryList = [
     {url: 'mike-houser-ASOGZQvLKt0-unsplash.jpg', altText: '4'}
 ];
 
-export const MagnifierContext = createContext(false);
+export const Context = createContext({magnifier: false, zoom: false});
 
 const App = () => {
     const [magnifier, setMagnifier] = useState(false);
+    const [zoom, setZoom] = useState(false);
 
-    const handleChange = () => {
-        setMagnifier(!magnifier);
+    const handleChange = event => {
+        if (event.target.id === 'switch-magnifier') {
+            setMagnifier(!magnifier);
+        } else if (event.target.id === 'switch-zoom') {
+            setZoom(!zoom);
+        }
     };
 
     return <Fragment>
@@ -39,11 +44,15 @@ const App = () => {
                         <input className="form-check-input" type="checkbox" role="switch" id="switch-magnifier" onChange={handleChange} checked={magnifier} />
                         <label className="form-check-label" htmlFor="switch-magnifier">Magnifier</label>
                     </div>
+                    <div className="form-check form-switch">
+                        <input className="form-check-input" type="checkbox" role="switch" id="switch-zoom" onChange={handleChange} checked={zoom} />
+                        <label className="form-check-label" htmlFor="switch-zoom">Zoom</label>
+                    </div>
                 </aside>
                 <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                    <MagnifierContext.Provider value={magnifier}>
+                    <Context.Provider value={{magnifier, zoom}}>
                         <GallerySlider slides={galleryList} />
-                    </MagnifierContext.Provider>
+                    </Context.Provider>
                 </main>
             </div>
         </div>

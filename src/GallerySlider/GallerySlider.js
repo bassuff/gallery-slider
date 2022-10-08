@@ -8,20 +8,30 @@ import Dialog from '../Dialog/Dialog.js';
 import Magnifier from '../Magnifier/Magnifier.js';
 
 // Context
-import {MagnifierContext} from '../App.js';
+import {Context} from '../App.js';
 
 // Styles
 import './GallerySlider.css';
 
-const Images = ({currentIndex, magnifier, openDialog, slides}) => {
-	const magnifierContext = useContext(MagnifierContext);
+const Images = ({currentIndex, magnifier, openDialog, slides, zoom}) => {
+	const [zoomed, setZoomed] = useState(false);
+	const context = useContext(Context);
+
+	const handleClick = () => {
+		setZoomed(!zoomed);
+	};
 
 	return (
 		slides.map((item, slideIndex) => (
-			<figure key={item.url} className={classnames('slide', {active: slideIndex === currentIndex})} onClick={openDialog}>
+			<figure
+				key={item.url}
+				className={classnames('slide', {active: slideIndex === currentIndex})}
+				onClick={zoom ? handleClick : openDialog}
+				{...(context.zoom && zoom ? {style: {cursor: zoomed ? 'zoom-out' : 'zoom-in'}} : {})}
+			>
 				<img src={`${process.env.PUBLIC_URL}/${item.url}`} id={`image-${slideIndex}`} alt={item.altText} />
 				{item.altText && <figcaption className="text-center">{item.altText}</figcaption>}
-				{magnifier && magnifierContext ? (
+				{magnifier && context.magnifier ? (
 					<Magnifier
 						height={360}
 						index={slideIndex}
@@ -39,7 +49,8 @@ Images.propTypes = {
 	currentIndex: PropTypes.number.isRequired,
 	magnifier: PropTypes.bool,
 	openDialog: PropTypes.func.isRequired,
-	slides: PropTypes.array.isRequired
+	slides: PropTypes.array.isRequired,
+	zoom: PropTypes.bool
 };
 
 const Thumbnails = ({currentIndex, goToNext, goToPrevious, goToSlide, slides}) => (
@@ -131,7 +142,7 @@ const GallerySlider = ({slides}) => {
 			<Thumbnails currentIndex={currentIndex} goToNext={goToNext} goToPrevious={goToPrevious} goToSlide={goToSlide} slides={slides} />
 			{isDialogOpen && (
 				<Dialog onClose={closeDialog}>
-					<Images currentIndex={currentIndex} openDialog={openDialog} slides={slides} />
+					<Images currentIndex={currentIndex} openDialog={openDialog} slides={slides} zoom />
 					<Thumbnails currentIndex={currentIndex} goToNext={goToNext} goToPrevious={goToPrevious} goToSlide={goToSlide} slides={slides} />
 				</Dialog>
 			)}
