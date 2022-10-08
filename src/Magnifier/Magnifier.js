@@ -11,8 +11,6 @@ const Magnifier = props => {
 	const [height, setHeight] = useState(props.height);
 	const [width, setWidth] = useState(props.width);
 
-	let {index} = props;
-	let options = props.options;
 	const data = {
 		sourceImg: {
 			element: null,
@@ -36,13 +34,8 @@ const Magnifier = props => {
 			height: 0,
 		},
 	};
-	// const containerRef = useRef();
-	// const imageRef = useRef();
 	const zoomLensRef = useRef();
 	const zoomedImageRef = useRef();
-	// const img = React.createElement('img', {src: options.img});
-	// const container = React.createElement('div', null, img);
-	// const container = document.getElementsByClassName('slide active')[0];
 	let container;
 
 	useEffect(() => {
@@ -63,10 +56,10 @@ const Magnifier = props => {
 	let scaleY;
 	let offset;
 	data.zoomedImgOffset = {
-		vertical: options.offset && options.offset.vertical ? options.offset.vertical : 0,
-		horizontal: options.offset && options.offset.horizontal ? options.offset.horizontal : 0,
+		vertical: props.offset && props.offset.vertical ? props.offset.vertical : 0,
+		horizontal: props.offset && props.offset.horizontal ? props.offset.horizontal : 0,
 	};
-	data.zoomContainer = options.zoomContainer ? options.zoomContainer : container;
+	data.zoomContainer = props.zoomContainer ? props.zoomContainer : container;
 
 	const getOffset = el => {
 		if (el) {
@@ -109,12 +102,12 @@ const Magnifier = props => {
 		return getPosition(top, topMin, topLimit(topMin));
 	};
 
-	const setZoomedImgSize = (options, data) => {
-		if (options.scale) {
-			data.zoomedImg.element.style.width = width * options.scale + 'px';
-			data.zoomedImg.element.style.height = height * options.scale + 'px';
-		} else if (options.zoomWidth) {
-			data.zoomedImg.element.style.width = options.zoomWidth + 'px';
+	const setZoomedImgSize = (props, data) => {
+		if (props.scale) {
+			data.zoomedImg.element.style.width = width * props.scale + 'px';
+			data.zoomedImg.element.style.height = height * props.scale + 'px';
+		} else if (props.zoomWidth) {
+			data.zoomedImg.element.style.width = props.zoomWidth + 'px';
 			data.zoomedImg.element.style.height = data.sourceImg.element.style.height;
 		} else {
 			data.zoomedImg.element.style.width = '100%';
@@ -123,21 +116,21 @@ const Magnifier = props => {
 	};
 
 	const onSourceImgLoad = () => {
-		// use height determined by browser if height is not set in options
+		// use height determined by browser if height is not set in props
 		setHeight(props.height || data.sourceImg.element.height);
-		data.sourceImg.element.style.height = options.fillContainer ? '100%' : height + 'px';
+		data.sourceImg.element.style.height = props.fillContainer ? '100%' : height + 'px';
 
-		// use width determined by browser if width is not set in options
+		// use width determined by browser if width is not set in props
 		setWidth(props.width || data.sourceImg.element.width);
-		data.sourceImg.element.style.width = options.fillContainer ? '100%' : width + 'px';
+		data.sourceImg.element.style.width = props.fillContainer ? '100%' : width + 'px';
 
-		setZoomedImgSize(options, data);
+		setZoomedImgSize(props, data);
 
 		data.sourceImg.naturalWidth = data.sourceImg.element.naturalWidth;
 		data.sourceImg.naturalHeight = data.sourceImg.element.naturalHeight;
 		data.zoomedImg.element.style.backgroundSize = data.sourceImg.naturalWidth + 'px ' + data.sourceImg.naturalHeight + 'px';
 
-		data.zoomLens.element.style.background = 'white';
+		data.zoomLens.element.style.background = 'black';
 		data.zoomLens.element.style.opacity = '0.4';
 
 		scaleX = data.sourceImg.naturalWidth / width;
@@ -145,14 +138,14 @@ const Magnifier = props => {
 		offset = getOffset(data.sourceImg.element);
 
 		// set zoomLens dimensions if custom scale is set
-		if (options.scale) {
-			data.zoomLens.width = width / (data.sourceImg.naturalWidth / (width * options.scale));
-			data.zoomLens.height = height / (data.sourceImg.naturalHeight / (height * options.scale));
+		if (props.scale) {
+			data.zoomLens.width = width / (data.sourceImg.naturalWidth / (width * props.scale));
+			data.zoomLens.height = height / (data.sourceImg.naturalHeight / (height * props.scale));
 		}
 
 		// else if zoomWidth is set
-		else if (options.zoomWidth) {
-			data.zoomLens.width = options.zoomWidth / scaleX;
+		else if (props.zoomWidth) {
+			data.zoomLens.width = props.zoomWidth / scaleX;
 			data.zoomLens.height = height / scaleY;
 		}
 
@@ -173,12 +166,11 @@ const Magnifier = props => {
 	const setup = () => {
 		container = document.getElementsByClassName('slide active')[0];
 		// todo
-		data.sourceImg.element = document.getElementById('image-' + index);
+		data.sourceImg.element = document.getElementById('image-' + props.index);
 
-		options = options || {};
-		// containerRef.current.style.position = 'relative';
-		data.sourceImg.element.style.width = options.fillContainer ? '100%' : props.width ? width + 'px' : 'auto';
-		data.sourceImg.element.style.height = options.fillContainer ? '100%' : props.height ? height + 'px' : 'auto';
+		container.style.position = 'relative';
+		data.sourceImg.element.style.width = props.fillContainer ? '100%' : props.width ? width + 'px' : 'auto';
+		data.sourceImg.element.style.height = props.fillContainer ? '100%' : props.height ? height + 'px' : 'auto';
 
 		data.zoomLens.element = zoomLensRef.current;
 		data.zoomLens.element.style.display = 'none';
@@ -190,6 +182,7 @@ const Magnifier = props => {
 		data.zoomedImg.element.style.backgroundRepeat = 'no-repeat';
 		data.zoomedImg.element.style.display = 'none';
 
+		// Right Position
 		data.zoomedImg.element.style.position = 'absolute';
 		data.zoomedImg.element.style.top = data.zoomedImgOffset.vertical + 'px';
 		data.zoomedImg.element.style.right = data.zoomedImgOffset.horizontal - data.zoomedImgOffset.horizontal * 2 + 'px';
@@ -253,15 +246,12 @@ const Magnifier = props => {
 
 Magnifier.propTypes = {
 	fillContainer: PropTypes.bool,
-	width: PropTypes.number,
-	img: PropTypes.string,
 	height: PropTypes.number,
-	zoomWidth: PropTypes.number,
-	scale: PropTypes.number,
 	offset: PropTypes.object,
-	zoomStyle: PropTypes.string,
-	zoomLensStyle: PropTypes.string,
+	scale: PropTypes.number,
+	width: PropTypes.number,
 	zoomPosition: PropTypes.oneOf(['top', 'left', 'bottom', 'right', 'original']),
+	zoomWidth: PropTypes.number,
 };
 
 Magnifier.defaultProps = {

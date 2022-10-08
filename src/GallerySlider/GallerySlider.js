@@ -13,8 +13,6 @@ import {MagnifierContext} from '../App.js';
 // Styles
 import './GallerySlider.css';
 
-const options = {zoomWidth: 500, offset: {vertical: 0, horizontal: 10}};
-
 const Images = ({currentIndex, magnifier, openDialog, slides}) => {
 	const magnifierContext = useContext(MagnifierContext);
 
@@ -23,9 +21,15 @@ const Images = ({currentIndex, magnifier, openDialog, slides}) => {
 			<figure key={item.url} className={classnames('slide', {active: slideIndex === currentIndex})} onClick={openDialog}>
 				<img src={`${process.env.PUBLIC_URL}/${item.url}`} id={`image-${slideIndex}`} alt={item.altText} />
 				{item.altText && <figcaption className="text-center">{item.altText}</figcaption>}
-				{magnifier && magnifierContext
-					? <Magnifier options={options} index={slideIndex} width={360} height={360} />
-					: null}
+				{magnifier && magnifierContext ? (
+					<Magnifier
+						height={360}
+						index={slideIndex}
+						offset={{vertical: 0, horizontal: 10}}
+						width={360}
+						zoomWidth={500}
+					/>
+				) : null}
 			</figure>
 		))
 	);
