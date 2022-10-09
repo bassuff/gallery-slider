@@ -2,9 +2,14 @@
 	display: none;
 }
 
-.slide img {
-	height: 360px;
+main .slide img {
 	width: 360px;
+	height: 360px;
+}
+
+.dialog .slide img {
+	width: 600px;
+	height: 600px;
 }
 
 /* Next & previous buttons */
