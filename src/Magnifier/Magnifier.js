@@ -1,5 +1,6 @@
 /**
- * @license Copyright (c) 2017 Andrii Malaman
+ * @license
+ * Copyright (c) 2017 Andrii Malaman
  * Written by Andrii Malaman https://github.com/malaman/js-image-zoom
  */
 
@@ -130,7 +131,7 @@ const Magnifier = props => {
 		data.sourceImg.naturalHeight = data.sourceImg.element.naturalHeight;
 		data.zoomedImg.element.style.backgroundSize = data.sourceImg.naturalWidth + 'px ' + data.sourceImg.naturalHeight + 'px';
 
-		data.zoomLens.element.style.background = 'black';
+		data.zoomLens.element.style.background = 'white';
 		data.zoomLens.element.style.opacity = '0.4';
 
 		scaleX = data.sourceImg.naturalWidth / width;
@@ -174,7 +175,7 @@ const Magnifier = props => {
 
 		data.zoomLens.element = zoomLensRef.current;
 		data.zoomLens.element.style.display = 'none';
-		data.zoomLens.element.classList.add('zoom-lens');
+		data.zoomLens.element.style.cursor = 'move';
 
 		data.zoomedImg.element = zoomedImageRef.current;
 		data.zoomedImg.element.classList.add('zoomed-image');

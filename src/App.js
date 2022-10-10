@@ -8,10 +8,10 @@ import GallerySlider from './GallerySlider/GallerySlider.js';
 import './App.css';
 
 const galleryList = [
-    {url: 'eugene-golovesov--eOGjaog7h0-unsplash.jpg', altText: '1'},
-    {url: 'eugene-golovesov-3o72hSvigbk-unsplash.jpg', altText: '2'},
-    {url: 'juan-carlos-frias-brito--uKRelOEcXw-unsplash.jpg', altText: '3'},
-    {url: 'mike-houser-ASOGZQvLKt0-unsplash.jpg', altText: '4'}
+    {url: 'eugene-golovesov--eOGjaog7h0-unsplash.jpg', altText: 'https://unsplash.com/photos/-eOGjaog7h0'},
+    {url: 'eugene-golovesov-3o72hSvigbk-unsplash.jpg', altText: 'https://unsplash.com/photos/3o72hSvigbk'},
+    {url: 'juan-carlos-frias-brito--uKRelOEcXw-unsplash.jpg', altText: 'https://unsplash.com/photos/-uKRelOEcXw'},
+    {url: 'mike-houser-ASOGZQvLKt0-unsplash.jpg', altText: 'https://unsplash.com/photos/ASOGZQvLKt0'}
 ];
 
 export const Context = createContext({magnifier: false, zoom: false});

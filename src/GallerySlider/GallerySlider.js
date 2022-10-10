@@ -31,7 +31,7 @@ const Images = ({currentIndex, magnifier, openDialog, slides, zoom}) => {
 			>
 				<img src={`${process.env.PUBLIC_URL}/${item.url}`} id={`image-${slideIndex}`} alt={item.altText} />
 				{item.altText && <figcaption className="text-center">{item.altText}</figcaption>}
-				{magnifier && context.magnifier ? (
+				{magnifier && context.magnifier && slideIndex === currentIndex ? (
 					<Magnifier
 						height={360}
 						index={slideIndex}
