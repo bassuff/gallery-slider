@@ -1,7 +1,6 @@
 // Libraries
 import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 
 // Components
 import Dialog from '../Dialog/Dialog.js';
@@ -11,7 +10,7 @@ import Magnifier from '../Magnifier/Magnifier.js';
 import {Context} from '../App.js';
 
 // Styles
-import './GallerySlider.css';
+import styles from './GallerySlider.module.css';
 
 const Images = ({currentIndex, magnifier, openDialog, slides, zoom}) => {
 	const [zoomed, setZoomed] = useState(false);
@@ -25,7 +24,8 @@ const Images = ({currentIndex, magnifier, openDialog, slides, zoom}) => {
 		slides.map((item, slideIndex) => (
 			<figure
 				key={item.url}
-				className={classnames('slide', {active: slideIndex === currentIndex})}
+				className={styles.slide}
+				aria-selected={slideIndex === currentIndex}
 				onClick={zoom ? handleClick : openDialog}
 				{...(context.zoom && zoom ? {style: {cursor: zoomed ? 'zoom-out' : 'zoom-in'}} : {})}
 			>
@@ -55,17 +55,17 @@ Images.propTypes = {
 
 const Thumbnails = ({currentIndex, goToNext, goToPrevious, goToSlide, slides}) => (
 	<div className="position-relative mt-2 w-100">
-		<button className="prev" onClick={goToPrevious}>❮</button>
-		<div className="list">
-			<div className="track" style={{width: `${slides.length * 42}px`, transform: `translate3d(${105 - 42 * currentIndex}px, 0px, 0px)`}}>
+		<button className={styles.prev} onClick={goToPrevious}>❮</button>
+		<div className={styles.list}>
+			<div className={styles.track} style={{width: `${slides.length * 42}px`, transform: `translate3d(${105 - 42 * currentIndex}px, 0px, 0px)`}}>
 				{slides.map((item, slideIndex) => (
-					<div key={item.url} className="thumbnail" onClick={() => goToSlide(slideIndex)}>
-						<img className={classnames('thumbnail-image', {active: slideIndex === currentIndex})} src={`${process.env.PUBLIC_URL}/${item.url}`} alt={item.altText} onClick={() => null} />
+					<div key={item.url} className={styles.thumbnail} aria-selected={slideIndex === currentIndex} onClick={() => goToSlide(slideIndex)}>
+						<img className={styles.thumbnailImage} src={`${process.env.PUBLIC_URL}/${item.url}`} alt={item.altText} onClick={() => null} />
 					</div>
 				))}
 			</div>
 		</div>
-		<button className="next" onClick={goToNext}>❯</button>
+		<button className={styles.next} onClick={goToNext}>❯</button>
 	</div>
 );
 

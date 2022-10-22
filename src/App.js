@@ -5,7 +5,7 @@ import React, {Fragment, createContext, useState} from 'react';
 import GallerySlider from './GallerySlider/GallerySlider.js';
 
 // Styles
-import './App.css';
+import styles from './App.module.css';
 
 const galleryList = [
     {url: 'eugene-golovesov--eOGjaog7h0-unsplash.jpg', altText: 'https://unsplash.com/photos/-eOGjaog7h0'},
@@ -39,7 +39,7 @@ const App = () => {
         </header>
         <div className="container-fluid mt-3">
             <div className="row">
-                <aside className="col-md-3 col-lg-2 d-md-block bg-light sidebar d-none">
+                <aside className={`col-md-3 col-lg-2 d-md-block bg-light d-none ${styles.sidebar}`}>
                     <div className="form-check form-switch">
                         <input className="form-check-input" type="checkbox" role="switch" id="switch-magnifier" onChange={handleChange} checked={magnifier} />
                         <label className="form-check-label" htmlFor="switch-magnifier">Magnifier</label>

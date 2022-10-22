@@ -1,20 +1,25 @@
+// Libraries
 import React from 'react';
 import PropTypes from 'prop-types';
+
+// Components
 import Modal from '../Modal/Modal.js';
-import './Dialog.css';
+
+// Styles
+import styles from './Dialog.module.css';
 
 const Dialog = props => {
     const {onClose} = props;
 
     return (
         <Modal>
-            <div className="backdrop"></div>
-            <div className="dialog">
-                <div className="paper">
+            <div className={styles.backdrop}></div>
+            <div className={styles.dialog}>
+                <div className={styles.paper}>
                     <div>
-                        <h2 className="dialog-title">Dialog title</h2>
+                        <h2 className={styles.dialogTitle}>Dialog title</h2>
                         {onClose ? (
-                            <button onClick={onClose} className="close-button">Close</button>
+                            <button onClick={onClose} className={styles.closeButton}>Close</button>
                         ) : null}
                     </div>
                     {props.children}

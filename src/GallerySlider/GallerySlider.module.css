@@ -1,4 +1,4 @@
-.slide:not(.active) {
+.slide:not([aria-selected="true"]) {
 	display: none;
 }
 
@@ -74,14 +74,14 @@ figcaption {
 	height: 42px;
 }
 
-.thumbnail-image {
+.thumbnailImage {
 	width: 100%;
 	border: 2px solid transparent;
 	opacity: 0.6;
 }
 
-.thumbnail-image.active,
-.thumbnail-image:hover {
+.thumbnail[aria-selected="true"] .thumbnailImage,
+.thumbnailImage:hover {
 	opacity: 1;
 	border: 2px solid black;
 }

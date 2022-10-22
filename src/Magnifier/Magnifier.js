@@ -165,7 +165,7 @@ const Magnifier = props => {
 	};
 
 	const setup = () => {
-		container = document.getElementsByClassName('slide active')[0];
+		container = document.querySelector('figure[aria-selected="true"]');
 		// todo
 		data.sourceImg.element = document.getElementById('image-' + props.index);
 

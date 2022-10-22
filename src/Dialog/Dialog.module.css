@@ -36,7 +36,7 @@
     max-width: 600px;
 }
 
-.dialog-title {
+.dialogTitle {
     font-family: Roboto, Helvetica, Arial, sans-serif;
     font-weight: 500;
     font-size: 1.25rem;
@@ -47,7 +47,7 @@
     padding: 16px;
 }
 
-.close-button {
+.closeButton {
     display: inline-flex;
     align-items: center;
     justify-content: center;
