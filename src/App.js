@@ -41,7 +41,7 @@ const App = () => {
             <div className="row">
                 <aside className={`col-md-3 col-lg-2 d-md-block bg-light d-none ${styles.sidebar}`}>
                     <div className="form-check form-switch">
-                        <input className="form-check-input" type="checkbox" role="switch" id="switch-magnifier" onChange={handleChange} checked={magnifier} />
+                        <input className="form-check-input" type="checkbox" role="switch" id="switch-magnifier" onChange={handleChange} aria-checked={magnifier} />
                         <label className="form-check-label" htmlFor="switch-magnifier">Magnifier</label>
                     </div>
                     <div className="form-check form-switch">

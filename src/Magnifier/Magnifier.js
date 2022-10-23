@@ -178,7 +178,7 @@ const Magnifier = props => {
 		data.zoomLens.element.style.cursor = 'move';
 
 		data.zoomedImg.element = zoomedImageRef.current;
-		data.zoomedImg.element.classList.add('zoomed-image');
+		data.zoomedImg.element.setAttribute('data-testid', 'zoomed-image');
 		data.zoomedImg.element.style.backgroundImage = "url('" + data.sourceImg.element.src + "')";
 		data.zoomedImg.element.style.backgroundRepeat = 'no-repeat';
 		data.zoomedImg.element.style.display = 'none';
