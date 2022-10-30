@@ -12,12 +12,17 @@ import {Context} from '../App.js';
 // Styles
 import styles from './GallerySlider.module.css';
 
-const Images = ({currentIndex, magnifier, openDialog, slides, zoom}) => {
+const Images = ({currentIndex, isDialogOpen, magnifier, openDialog, slides}) => {
   const [zoomed, setZoomed] = useState(false);
+  const [posX, setPosX] = useState(0);
+  const [posY, setPosY] = useState(0);
   const context = useContext(Context);
 
-  const handleClick = () => {
+  const handleClick = e => {
     setZoomed(!zoomed);
+    const coords = e.target.getBoundingClientRect();
+    setPosX(e.pageX - coords.left);
+    setPosY(e.pageY - coords.top);
   };
 
   return slides.map((item, slideIndex) => (
@@ -25,10 +30,38 @@ const Images = ({currentIndex, magnifier, openDialog, slides, zoom}) => {
       key={item.url}
       className={styles.slide}
       aria-selected={slideIndex === currentIndex}
-      onClick={zoom ? handleClick : openDialog}
-      {...(context.zoom && zoom ? {style: {cursor: zoomed ? 'zoom-out' : 'zoom-in'}} : {})}
+      onClick={isDialogOpen ? handleClick : openDialog}
+      {...(context.zoom && isDialogOpen ? {
+        style: zoomed ? {
+          cursor: 'zoom-out',
+          overflow: 'hidden',
+        } : {
+          cursor: 'zoom-in',
+          height: '600px',
+          overflow: 'hidden',
+        },
+      } : {})}
     >
-      <img src={`${process.env.PUBLIC_URL}/${item.url}`} id={`image-${slideIndex}`} alt={item.altText} />
+      <img
+        src={`${process.env.PUBLIC_URL}/${item.url}`}
+        data-src-image={slideIndex}
+        alt={item.altText}
+        {...(context.zoom && isDialogOpen ? {
+          style: zoomed ? {
+            position: 'relative',
+            left: `-${posX}px`,
+            top: `-${posY}px`,
+          } : {
+            width: '600px',
+            height: '600px',
+          },
+        } : {
+          style: isDialogOpen ? {
+            width: '600px',
+            height: '600px',
+          } : {}
+        })}
+      />
       {item.altText && <figcaption className="text-center">{item.altText}</figcaption>}
       {magnifier && context.magnifier && slideIndex === currentIndex ? (
         <Magnifier height={360} index={slideIndex} offset={{vertical: 0, horizontal: 10}} width={360} zoomWidth={500} />
@@ -39,10 +72,10 @@ const Images = ({currentIndex, magnifier, openDialog, slides, zoom}) => {
 
 Images.propTypes = {
   currentIndex: PropTypes.number.isRequired,
+  isDialogOpen: PropTypes.bool,
   magnifier: PropTypes.bool,
   openDialog: PropTypes.func.isRequired,
   slides: PropTypes.array.isRequired,
-  zoom: PropTypes.bool,
 };
 
 const Thumbnails = ({currentIndex, goToNext, goToPrevious, goToSlide, slides}) => (
@@ -140,7 +173,7 @@ const GallerySlider = ({slides}) => {
       <Thumbnails currentIndex={currentIndex} goToNext={goToNext} goToPrevious={goToPrevious} goToSlide={goToSlide} slides={slides} />
       {isDialogOpen && (
         <Dialog onClose={closeDialog}>
-          <Images currentIndex={currentIndex} openDialog={openDialog} slides={slides} zoom />
+          <Images currentIndex={currentIndex} isDialogOpen={isDialogOpen} openDialog={openDialog} slides={slides} />
           <Thumbnails currentIndex={currentIndex} goToNext={goToNext} goToPrevious={goToPrevious} goToSlide={goToSlide} slides={slides} />
         </Dialog>
       )}

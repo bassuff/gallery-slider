@@ -166,8 +166,7 @@ const Magnifier = props => {
 
   const setup = () => {
     container = document.querySelector('figure[aria-selected="true"]');
-    // todo
-    data.sourceImg.element = document.getElementById('image-' + props.index);
+    data.sourceImg.element = document.querySelector(`[data-src-image="${props.index}"]`);
 
     container.style.position = 'relative';
     data.sourceImg.element.style.width = props.fillContainer ? '100%' : props.width ? width + 'px' : 'auto';
