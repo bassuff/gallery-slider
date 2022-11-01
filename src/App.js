@@ -21,11 +21,8 @@ const App = () => {
   const [zoom, setZoom] = useState(false);
 
   const handleChange = event => {
-    if (event.target.id === 'switch-magnifier') {
-      setMagnifier(!magnifier);
-    } else if (event.target.id === 'switch-zoom') {
-      setZoom(!zoom);
-    }
+    event.target.id === 'switch-magnifier' && setMagnifier(!magnifier);
+    event.target.id === 'switch-zoom' && setZoom(!zoom);
   };
 
   return (
